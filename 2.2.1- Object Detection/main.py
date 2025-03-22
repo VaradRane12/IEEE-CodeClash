@@ -1,4 +1,12 @@
 from ultralytics import YOLO
 
-# Load pre-trained YOLO model
-model = YOLO("yolov8n.pt")  # Smallest YOLOv8 model for faster execution
+import cv2
+
+model = YOLO("yolov8n.pt") 
+
+img = cv2.imread("foggy_test.jpg")
+
+results = model(img)
+
+for i in results:
+    i.show()
