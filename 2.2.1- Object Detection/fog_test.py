@@ -8,14 +8,8 @@ def add_fog(image, intensity=0.5):
     foggy_image = cv2.addWeighted(image, 1 - intensity, fog, intensity, 0)
     return foggy_image
 
-image = cv2.imread("2.2.1- Object Detection\\test.jpg") 
+image = cv2.imread("..//1cd5d614-35d63896.jpg") 
 
 foggy_image = add_fog(image, intensity=0.7) 
-cv2.imwrite("foggy_test.jpg", foggy_image)
+cv2.imwrite("foggy_test2.jpg", foggy_image)
 
-model = YOLO("yolov8n.pt")
-
-results = model(foggy_image)
-
-for result in results:
-    result.show()
