@@ -7,10 +7,11 @@ from ultralytics import YOLO
 def enhance_contrast(img):
     lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
     l, a, b = cv2.split(lab)
-    clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8,8))
+    clahe = cv2.createCLAHE(clipLimit=7.0, tileGridSize=(16,16))
     l = clahe.apply(l)
     lab = cv2.merge((l, a, b))
     return cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)
+
 
 def draw_boxes(img, boxes, color=(0, 255, 0), label=""):
     for box in boxes:
@@ -38,7 +39,7 @@ iou_scores = []
 count = 0
 for no_fog_img, med_fog_img, dense_fog_img in zip(no_fog_images, medium_fog_images, dense_fog_images):
     count += 1
-    if count == 2:
+    if count == 3:
         break
 
     no_fog = cv2.imread(no_fog_img)
@@ -48,6 +49,17 @@ for no_fog_img, med_fog_img, dense_fog_img in zip(no_fog_images, medium_fog_imag
     enhanced_med_fog = enhance_contrast(med_fog)
     enhanced_dense_fog = enhance_contrast(dense_fog)
     
+    
+    
+    # output_path = f"enhanced_med{count}.jpg"
+    # cv2.imwrite(output_path, enhanced_med_fog)
+
+    # output_path = f"enhanced_dense{count}.jpg"
+    # cv2.imwrite(output_path, enhanced_dense_fog)
+
+
+
+
     no_fog_boxes = run_detection(model, no_fog)
     med_fog_boxes = run_detection(model, enhanced_med_fog)
     dense_fog_boxes = run_detection(model, enhanced_dense_fog)
@@ -66,8 +78,8 @@ for no_fog_img, med_fog_img, dense_fog_img in zip(no_fog_images, medium_fog_imag
     comparison = np.hstack((no_fog, med_fog, dense_fog))
 
     # Save the comparison image
-    output_path = "comparison.jpg"
+    output_path = f"comparison{count}.jpg"
     cv2.imwrite(output_path, comparison)
     print(f"Comparison image saved as {output_path}")
 
-    break  # Only process one image for visualization
+     # Only process one image for visualization
