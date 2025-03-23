@@ -6,12 +6,12 @@ from ultralytics import YOLO
 
 # Function to enhance contrast using CLAHE (Contrast Limited Adaptive Histogram Equalization)
 def enhance_contrast(img):
-    lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)  # Convert image to LAB color space
-    l, a, b = cv2.split(lab)  # Split channels
-    clahe = cv2.createCLAHE(clipLimit=7.0, tileGridSize=(16,16))  # Apply CLAHE to the L-channel
+    lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
+    l, a, b = cv2.split(lab)
+    clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8,8))
     l = clahe.apply(l)
-    lab = cv2.merge((l, a, b))  # Merge channels back
-    return cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)  # Convert back to BGR
+    lab = cv2.merge((l, a, b))
+    return cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)
 
 # Function to calculate Intersection over Union (IoU) between two bounding boxes
 def calculate_iou(box1, box2):
@@ -61,9 +61,7 @@ count = 0  # Initialize counter
 
 # Loop through images in all three categories
 for no_fog_img, med_fog_img, dense_fog_img in zip(no_fog_images, medium_fog_images, dense_fog_images):
-    count += 1
-    if count == 10:  # Process only 10 images
-        break
+
     
     # Read images
     med_fog = cv2.imread(med_fog_img)
@@ -83,6 +81,10 @@ for no_fog_img, med_fog_img, dense_fog_img in zip(no_fog_images, medium_fog_imag
         max_iou_med = max([calculate_iou(n_box, f_box) for f_box in med_fog_boxes] or [0])
         max_iou_dense = max([calculate_iou(n_box, f_box) for f_box in dense_fog_boxes] or [0])
         iou_scores.append((max_iou_med, max_iou_dense))
+        
+    count+=1
+    if count == 10:
+        break
 
 # Calculate average IoU values
 iou_avg_med = np.mean([iou[0] for iou in iou_scores])
