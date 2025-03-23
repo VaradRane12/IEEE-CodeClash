@@ -40,7 +40,7 @@ pip install -r requirements.txt
 numpy
 opencv-python
 glob2
-ultralytics
+ultralytics.......
 ```
 
 ## Usage
@@ -48,7 +48,7 @@ ultralytics
 Run the object detection script:
 
 ```bash
-python detect_foggy_objects.py
+python main_foggy_cityscapes.py
 ```
 
 ### Functionality
