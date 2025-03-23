@@ -1,0 +1,13 @@
+digraph Experimental_Pipeline {
+	A [label="Input Images
+(No Fog, Medium Fog, Dense Fog)" fillcolor=lightblue shape=rect style=filled]
+	B [label="Contrast Enhancement
+(CLAHE Applied)" fillcolor=lightgray shape=rect style=filled]
+	C [label="Object Detection
+(YOLO Model)" fillcolor=lightgreen shape=rect style=filled]
+	D [label="IoU Evaluation
+(Compare Bounding Boxes)" fillcolor=lightcoral shape=rect style=filled]
+	A -> B [label="Enhance contrast"]
+	B -> C [label="Detect objects"]
+	C -> D [label="Calculate IoU"]
+}
