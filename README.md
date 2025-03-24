@@ -60,6 +60,6 @@ Develop an AI-based risk assessment model that classifies potential threats and 
 1. Clone the repository:  
    ```bash
    git clone https://github.com/your-repo/IEEE-CodeClash.git
-   cd blindspot-detection
+   cd IEEE-CodeClash
 
 2. Further Steps are in the Readme Files inside the Subtopic Folders.
